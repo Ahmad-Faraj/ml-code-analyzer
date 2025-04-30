@@ -203,20 +203,20 @@ for i = 1:k
     [X_train, mu, sigma] = zscore(X_train);
     X_test = (X_test - mu) ./ sigma;
     
-    %% Train Decision Tree Model with Pruning
+    % Train Decision Tree Model with Pruning
     dt_model = fitctree(X_train, Y_train, 'MinLeafSize', 10, 'MaxNumSplits', 10);
     
-    %% Train Random Forest Model
+    % Train Random Forest Model
     dt_template = templateTree('MaxNumSplits', 10);
     rf_model = fitcensemble(X_train, Y_train, 'Method', 'Bag', 'NumLearningCycles', 150, 'Learners', dt_template);
     
-    %% Train KNN Model with k=7
+    % Train KNN Model with k=7
     knn_model = fitcknn(X_train, Y_train, 'NumNeighbors', 7);
     
-    %% Train SVM Model using fitcecoc for multi-class classification
+    % Train SVM Model using fitcecoc for multi-class classification
     svm_model = fitcecoc(X_train, Y_train);
     
-    %% Evaluate Models on Test Set
+    % Evaluate Models on Test Set
     pred_dt = predict(dt_model, X_test);
     pred_rf = predict(rf_model, X_test);
     pred_knn = predict(knn_model, X_test);
