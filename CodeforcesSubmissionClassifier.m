@@ -11,7 +11,7 @@ end
 
 num_samples = min(8000, length(submissions));
 
-%% Step 2: Extract Features from Submissions (Improved)
+% Step 2: Extract Features from Submissions (Improved)
 % Preallocate feature arrays (as doubles)
 PassedTestCount = zeros(num_samples,1);
 TimeConsumedMillis = zeros(num_samples,1);
@@ -116,11 +116,11 @@ end
 % Convert numeric labels to categorical variable
 SubmissionCategory = categorical(SubCatNumeric, [0,1,2], {'Accepted','Bug','Inefficiency'});
 
-%% Step 3: Create Dataset
+% Step 3: Create Dataset
 data = table(PassedTestCount, TimeConsumedMillis, MemoryConsumedBytes, RelativeTimeSeconds, ProblemRating, SubmissionCategory, ...
     'VariableNames', {'PassedTestCount', 'TimeConsumedMillis', 'MemoryConsumedBytes', 'RelativeTimeSeconds', 'ProblemRating', 'SubmissionCategory'});
 
-%% (Optional) Debug: Display Unique Programming Languages (if needed)
+% (Optional) Debug: Display Unique Programming Languages (if needed)
 if iscell(submissions)
     langs = cellfun(@(s) s.programmingLanguage, submissions, 'UniformOutput', false);
 else
@@ -129,7 +129,7 @@ end
 disp('Unique programming languages:');
 disp(unique(langs));
 
-%% Step 4: Balance the Dataset
+% Step 4: Balance the Dataset
 cats = categories(data.SubmissionCategory);
 counts = countcats(data.SubmissionCategory);
 min_samples_bal = min(counts);
@@ -147,7 +147,7 @@ else
     end
 end
 
-%% Step 5: Set Up Cross-Validation or Hold-Out Split
+% Step 5: Set Up Cross-Validation or Hold-Out Split
 n = height(data_balanced);
 if n < 2
     error('Not enough samples after balancing to perform cross-validation. Try increasing num_samples.');
@@ -183,7 +183,7 @@ accuracy_rf = zeros(k, 1);
 accuracy_knn = zeros(k, 1);
 accuracy_svm = zeros(k, 1);
 
-%% Step 6: Perform Cross-Validation with Feature Scaling
+% Step 6: Perform Cross-Validation with Feature Scaling
 for i = 1:k
     if k == 1
         trainData = data_balanced(training(cv), :);
@@ -247,13 +247,13 @@ for i = 1:k
     accuracy_svm(i) = sum(diag(cm_svm)) / sum(cm_svm(:));
 end
 
-%% Step 7: Display Average Accuracy Across Folds
+% Step 7: Display Average Accuracy Across Folds
 accuracy_results = table({'Decision Tree'; 'Random Forest'; 'KNN'; 'SVM'}, ...
                          [mean(accuracy_dt); mean(accuracy_rf); mean(accuracy_knn); mean(accuracy_svm)], ...
                          'VariableNames', {'Model', 'Accuracy'});
 disp(accuracy_results);
 
-%% Step 8: Visualizations and Saving Figures
+% Step 8: Visualizations and Saving Figures
 
 % Figure 1: Scatter Plot (PassedTestCount vs. TimeConsumedMillis)
 figure;
