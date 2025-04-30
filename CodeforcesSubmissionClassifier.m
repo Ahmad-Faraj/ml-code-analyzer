@@ -1,4 +1,4 @@
-%% Step 1: Fetch Codeforces Submissions via API
+% Step 1: Fetch Codeforces Submissions via API
 username = 'Ahmed_Faraj';
 api_url = "https://codeforces.com/api/user.status?handle=" + username;
 data_json = webread(api_url);
