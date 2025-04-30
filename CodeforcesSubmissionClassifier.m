@@ -292,4 +292,3 @@ figure;
 confusionchart(total_cm_svm, 'RowSummary','row-normalized', 'ColumnSummary','column-normalized');
 title('Aggregated Confusion Matrix: SVM');
 saveas(gcf, 'confusion_matrix_svm.png');
-
